@@ -4,7 +4,7 @@ import sys
 import pygame
 import requests as requests
 
-
+print(int(12.5))
 def load_image(name):
     fullname = os.path.join('.', name)
     if not os.path.isfile(fullname):
@@ -15,7 +15,16 @@ def load_image(name):
 
 
 coodrinates = input('Введите координаты без пробелов с запятой (например 37.677751,55.757718): ').split(',')
-z = input('Введите масштаб (0-17): ')
+flag = True
+z = 1
+while flag:
+    z = input('Введите масштаб целое число (0-17): ')
+    try:
+        if 17 >= int(z) >= 0:
+            flag = False
+    except BaseException:
+        pass
+
 # Долгота и широта:
 toponym_longitude, toponym_lattitude = coodrinates
 # Собираем параметры для запроса к StaticMapsAPI:
