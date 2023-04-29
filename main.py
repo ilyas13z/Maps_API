@@ -3,7 +3,7 @@ import sys
 
 import pygame
 import requests as requests
-
+map_type = 'map'
 pygame.init()
 toponym_coodrinates = input('Введите координаты без пробелов с запятой (например 37.677751,55.757718): ').split(',')
 zennet = float(input('Введите масштаб: (в формате spn): '))
@@ -13,7 +13,7 @@ map_api_server = "http://static-maps.yandex.ru/1.x/"
 map_params = {
     "ll": ",".join([toponym_longitude, toponym_lattitude]),
     "spn": ','.join([str(zennet), str(zennet)]),
-    "l": "map"
+    "l": map_type
 }
 response = requests.get(map_api_server, params=map_params)
 map_file = "map.png"
@@ -21,7 +21,7 @@ with open(map_file, "wb") as file:
     file.write(response.content)
 running = True
 couns = zennet
-screen = pygame.display.set_mode((600, 450))
+screen = pygame.display.set_mode((600, 500))
 screen.blit(pygame.image.load(map_file), (0, 0))
 pygame.display.flip()
 os.remove(map_file)
@@ -38,7 +38,7 @@ while running:
                     map_params = {
                         "ll": ",".join([toponym_longitude, toponym_lattitude]),
                         "spn": ','.join([str(couns), str(couns)]),
-                        "l": "map"
+                        "l": map_type
                     }
                     response = requests.get(map_api_server, params=map_params)
                     if not response:
@@ -55,7 +55,7 @@ while running:
                     map_params = {
                         "ll": ",".join([toponym_longitude, toponym_lattitude]),
                         "spn": ','.join([str(couns), str(couns)]),
-                        "l": "map"
+                        "l": map_type
                     }
                     response = requests.get(map_api_server, params=map_params)
                     map_file = "map.png"
@@ -76,7 +76,7 @@ while running:
                     map_params = {
                         "ll": ",".join([toponym_longitude, toponym_lattitude]),
                         "spn": ','.join([str(couns), str(couns)]),
-                        "l": "map"
+                        "l": map_type
                     }
                     response = requests.get(map_api_server, params=map_params)
                     if not response:
@@ -95,7 +95,7 @@ while running:
                     map_params = {
                         "ll": ",".join([toponym_longitude, toponym_lattitude]),
                         "spn": ','.join([str(couns), str(couns)]),
-                        "l": "map"
+                        "l": map_type
                     }
                     response = requests.get(map_api_server, params=map_params)
                     if not response:
@@ -114,7 +114,7 @@ while running:
                     map_params = {
                         "ll": ",".join([toponym_longitude, toponym_lattitude]),
                         "spn": ','.join([str(couns), str(couns)]),
-                        "l": "map"
+                        "l": map_type
                     }
                     response = requests.get(map_api_server, params=map_params)
                     if not response:
@@ -146,4 +146,14 @@ while running:
                         os.remove(map_file)
                 else:
                     toponym_longitude = '179'
+            if event.key == pygame.K_q:
+                map_type = 'map'
+            if event.key == pygame.K_w:
+                map_type = 'sat'
+            if event.key == pygame.K_e:
+                map_type = 'sat,skl'
+    font = pygame.font.Font(None, 50)
+    text = font.render("Переключение буквами Q W E", True, (100, 255, 100))
+    screen.blit(text, (50, 450))
+    pygame.display.flip()
 sys.exit()
