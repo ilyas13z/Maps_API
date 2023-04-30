@@ -46,6 +46,7 @@ screen.blit(pygame.image.load(map_file), (0, 0))
 clock = pygame.time.Clock()
 pygame.display.flip()
 old_response = response.url
+pt = ''
 while running:
     pygame.draw.rect(screen, 'black', (0, 545, 600, 250))
     events = pygame.event.get()
@@ -65,6 +66,7 @@ while running:
             pygame.display.flip()
             if event.key == pygame.K_RETURN:
                 toponym_longitude, toponym_lattitude = get_coord_from_name(textinput.value)
+                pt = ','.join([toponym_longitude, toponym_lattitude, 'pm2rdm'])
             if event.key == pygame.K_PAGEUP:
                 if 0 <= couns / 1.5 <= 90.0:
                     couns /= 1.5
@@ -104,7 +106,7 @@ while running:
                 "ll": ",".join([toponym_longitude, toponym_lattitude]),
                 "spn": ','.join([str(couns), str(couns)]),
                 "l": map_type,
-                "pt": ','.join([toponym_longitude, toponym_lattitude, 'pm2rdm'])
+                "pt": pt
             }
             response = requests.get(map_api_server, params=map_params)
             if not response:
