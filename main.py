@@ -48,7 +48,7 @@ pygame.display.flip()
 old_response = response.url
 pt = ''
 while running:
-    pygame.draw.rect(screen, 'black', (0, 545, 600, 250))
+    pygame.draw.rect(screen, 'black', (0, 545, 600, 40))
     events = pygame.event.get()
 
     textinput.update(events)
@@ -67,6 +67,8 @@ while running:
             if event.key == pygame.K_RETURN:
                 toponym_longitude, toponym_lattitude = get_coord_from_name(textinput.value)
                 pt = ','.join([toponym_longitude, toponym_lattitude, 'pm2rdm'])
+            if event.key == pygame.K_F4:
+                textinput.value = ''
             if event.key == pygame.K_PAGEUP:
                 if 0 <= couns / 1.5 <= 90.0:
                     couns /= 1.5
@@ -123,9 +125,12 @@ while running:
     text1 = font.render("Переключение клавишами F1 F2 F3", True, (100, 255, 100))
     text2 = font1.render("Это поисковое поле:", True, (100, 255, 100))
     text3 = font1.render("(чтобы увидеть результат нажмите enter)", True, (100, 255, 100))
+    text4 = font1.render("Для сброса ввода нажмите F4", True, (100, 255, 100))
     screen.blit(text1, (50, 450))
     screen.blit(text2, (0, 480))
     screen.blit(text3, (0, 515))
+    screen.blit(text4, (0, 585))
+
     pygame.display.flip()
     clock.tick(60)
 sys.exit()
